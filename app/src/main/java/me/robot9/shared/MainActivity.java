@@ -92,25 +92,25 @@ public class MainActivity extends AppCompatActivity {
 
                 // boolean useService = true;
                 // if (useService) {
-                    if (aidlReady.get()) {
-                        // init render context
-                        if (!renderReady.get()) {
-                            createRenderResources();
-                            offscreenRenderInit();
-                        }
+                    // if (aidlReady.get()) {
+                    //     // init render context
+                    //     if (!renderReady.get()) {
+                    //         createRenderResources();
+                    //         offscreenRenderInit();
+                    //     }
 
-                        // draw frame
-                        offscreenRenderDrawFrame();
+                    //     // draw frame
+                    //     offscreenRenderDrawFrame();
 
-                        // draw shared texture
-                        quadRenderer.drawTexture(texId, renderWidth, renderHeight);
-                    }
+                    //     // draw shared texture
+                    //     quadRenderer.drawTexture(texId, renderWidth, renderHeight);
+                    // }
                 // }
                 // else {
-                //     if (!renderReady.get()) {
-                //         createRenderResources();
-                //     }
-                //     quadRenderer.drawTexture(texId, renderWidth, renderHeight);
+                    if (!renderReady.get()) {
+                        createRenderResources();
+                    }
+                    quadRenderer.drawTexture(texId, renderWidth, renderHeight);
                 // }
             }
 

@@ -36,8 +36,8 @@ public class QuadRenderer {
             "varying vec4 texCoordinate;\n" +
             "uniform sampler2D s_texture;\n" +
             "void main() {\n" +
-            "  gl_FragColor = texture2D(s_texture, vec2(texCoordinate.x,texCoordinate.y) * 2.);\n" +
-            // "gl_FragColor = vec4(texCoordinate.xy, 0., 1.);" +
+            // "  gl_FragColor = texture2D(s_texture, vec2(texCoordinate.x,texCoordinate.y) * 2.);\n" +
+            "gl_FragColor = vec4(texCoordinate.xy, 0., 1.);" +
             "}";
     private FloatBuffer vertexBuffer, textureVerticesBuffer;
     private int mProgram;

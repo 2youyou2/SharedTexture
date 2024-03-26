@@ -21,12 +21,12 @@
             </intent-filter>
         </activity>
 
-        <service
+        <!-- <service
             android:name=".OffscreenService"
             android:enabled="true"
             android:exported="true"
             android:process=":offscreen">
-        </service>
+        </service> -->
     </application>
 
 </manifest>
