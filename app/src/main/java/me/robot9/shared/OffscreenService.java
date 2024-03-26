@@ -35,6 +35,27 @@ public class OffscreenService extends Service {
 
     private float color = 0.f;
 
+    private QuadRenderer quadRenderer;
+
+    private final String vertexShaderCode = "" +
+            "precision mediump float;\n" +
+            "attribute vec4 vPosition;\n" +
+            "attribute vec4 inputTexCoordinate;\n" +
+            "varying vec4 texCoordinate;\n" +
+            "void main() {\n" +
+            "  gl_Position = vPosition;\n" +
+            "  texCoordinate = inputTexCoordinate;\n" +
+            "}";
+
+    private final String fragmentShaderCode = "" +
+            "precision mediump float;\n" +
+            "varying vec4 texCoordinate;\n" +
+            "uniform sampler2D s_texture;\n" +
+            "void main() {\n" +
+            // "  gl_FragColor = texture2D(s_texture, vec2(texCoordinate.x,texCoordinate.y));\n" +
+            "gl_FragColor = vec4(texCoordinate.xy, 0., 1.);" +
+            "}";
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -62,6 +83,8 @@ public class OffscreenService extends Service {
                 GLES20.glFramebufferTexture2D(GLES20.GL_FRAMEBUFFER, GLES20.GL_COLOR_ATTACHMENT0, GLES20.GL_TEXTURE_2D, texId, 0);
 
                 renderReady = true;
+
+                quadRenderer = new QuadRenderer(false, vertexShaderCode, fragmentShaderCode);
             }
 
             @Override
@@ -76,12 +99,14 @@ public class OffscreenService extends Service {
                 GLES20.glViewport(0, 0, renderWidth, renderHeight);
 
                 // change clear color every frame
-                color += 0.01f;
-                if (color > 1.f) {
-                    color = 0.f;
-                }
+                // color += 0.01f;
+                // if (color > 1.f) {
+                //     color = 0.f;
+                // }
                 GLES20.glClearColor(color, 0, 0, 1.0f);
                 GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
+
+                quadRenderer.drawTexture(texId, renderWidth, renderHeight);
 
                 // TODO draw implementation
 

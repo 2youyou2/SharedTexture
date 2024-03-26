@@ -22,7 +22,7 @@ public class QuadRenderer {
     static float textureVerticesFlipY[] = {
             0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1
     };
-    private final String vertexShaderCode = "" +
+    private String vertexShaderCode = "" +
             "precision mediump float;\n" +
             "attribute vec4 vPosition;\n" +
             "attribute vec4 inputTexCoordinate;\n" +
@@ -31,12 +31,13 @@ public class QuadRenderer {
             "  gl_Position = vPosition;\n" +
             "  texCoordinate = inputTexCoordinate;\n" +
             "}";
-    private final String fragmentShaderCode = "" +
+    private String fragmentShaderCode = "" +
             "precision mediump float;\n" +
             "varying vec4 texCoordinate;\n" +
             "uniform sampler2D s_texture;\n" +
             "void main() {\n" +
-            "  gl_FragColor = texture2D(s_texture, vec2(texCoordinate.x,texCoordinate.y));\n" +
+            "  gl_FragColor = texture2D(s_texture, vec2(texCoordinate.x,texCoordinate.y) * 2.);\n" +
+            // "gl_FragColor = vec4(texCoordinate.xy, 0., 1.);" +
             "}";
     private FloatBuffer vertexBuffer, textureVerticesBuffer;
     private int mProgram;
@@ -46,10 +47,18 @@ public class QuadRenderer {
     private int mFrameBuffer;
 
     public QuadRenderer() {
-        this(false);
+        this(false, "", "");
     }
 
-    public QuadRenderer(boolean filpY) {
+    public QuadRenderer(boolean filpY, String vertexShaderStr, String fragmentShaderStr) {
+        if (!vertexShaderStr.equals("")) {
+            vertexShaderCode = vertexShaderStr;
+        }
+
+        if (!fragmentShaderStr.equals("")) {
+            fragmentShaderCode = fragmentShaderStr;
+        }
+
         // vertex
         ByteBuffer bb = ByteBuffer.allocateDirect(squareCoords.length * 4);
         bb.order(ByteOrder.nativeOrder());

@@ -90,19 +90,28 @@ public class MainActivity extends AppCompatActivity {
                 GLES20.glClearColor(0, 0, 0, 0);
                 GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
-                if (aidlReady.get()) {
-                    // init render context
-                    if (!renderReady.get()) {
-                        createRenderResources();
-                        offscreenRenderInit();
+                // boolean useService = true;
+                // if (useService) {
+                    if (aidlReady.get()) {
+                        // init render context
+                        if (!renderReady.get()) {
+                            createRenderResources();
+                            offscreenRenderInit();
+                        }
+
+                        // draw frame
+                        offscreenRenderDrawFrame();
+
+                        // draw shared texture
+                        quadRenderer.drawTexture(texId, renderWidth, renderHeight);
                     }
-
-                    // draw frame
-                    offscreenRenderDrawFrame();
-
-                    // draw shared texture
-                    quadRenderer.drawTexture(texId, renderWidth, renderHeight);
-                }
+                // }
+                // else {
+                //     if (!renderReady.get()) {
+                //         createRenderResources();
+                //     }
+                //     quadRenderer.drawTexture(texId, renderWidth, renderHeight);
+                // }
             }
 
             @Override
